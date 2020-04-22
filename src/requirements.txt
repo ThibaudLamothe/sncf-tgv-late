@@ -1,0 +1,26 @@
+# Data
+pandas
+numpy
+sklearn
+geopy
+
+# Dev
+requests
+
+# Viz
+seaborn
+matplotlib
+plotly
+
+# Dash
+dash
+dash-html-components
+dash-core-components
+dash-daq
+
+# Working environment
+jupyter
+jupyterlab
+autopep8
+notebook
+ipywidget

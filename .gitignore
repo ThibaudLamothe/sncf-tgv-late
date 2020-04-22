@@ -1,0 +1,13 @@
+# Generated files
+__pycache__
+.DS_Store
+.vscode
+.ipynb_checkpoints
+
+# Data
+data
+fig
+*.json
+
+# Other files
+activate_utils.sh
