@@ -1,11 +1,12 @@
 # Data
-pandas
+pandas #==0.24.0
 numpy
 sklearn
 geopy
 
 # Dev
 requests
+logzero
 
 # Viz
 seaborn
@@ -14,13 +15,15 @@ plotly
 
 # Dash
 dash
+dash-renderer
 dash-html-components
 dash-core-components
+dash-table-experiments
 dash-daq
 
 # Working environment
-jupyter
-jupyterlab
-autopep8
-notebook
-ipywidget
+# jupyter
+# jupyterlab
+# autopep8
+# notebook
+# ipywidget

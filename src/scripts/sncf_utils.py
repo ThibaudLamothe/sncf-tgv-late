@@ -6,11 +6,34 @@ import pandas as __pd
 import json as __json
 from sklearn.preprocessing import LabelEncoder
 
-DATA_PATH = '/Users/thibaud/Documents/Data/SNCF/'
-PICKLE_PATH = DATA_PATH + 'pickle/'
-JSON_PATH  = '/Users/thibaud/Documents/Python_scripts/02_Projects/SNCF/tgv-late/data/json/'
+
+############################################################################################
+########################################## PATHS ###########################################
+############################################################################################
 
     
+# Create specific path values
+DATA_PATH_tla = '/Users/thibaud/Documents/Python_scripts/02_Projects/SNCF/tgv-late/data/'
+DATA_PATH_dok = '/data/'
+
+# Local or docker
+if 'DEPLOYED' in __os.environ:
+    DATA_PATH = DATA_PATH_dok
+else:
+    DATA_PATH = DATA_PATH_tla
+
+# Similar path
+FIG_PATH = DATA_PATH.replace('data', 'fig')
+WIKI_PATH =  DATA_PATH.replace('data', 'wiki')
+
+# Sub-data folder
+PICKLE_PATH = DATA_PATH + 'pickle/'
+JSON_PATH =  DATA_PATH + 'json/'
+
+############################################################################################
+######################################### FUNCTIONS ########################################
+############################################################################################
+
 
 def load_pickle(file_name):
     file_path = PICKLE_PATH + file_name

@@ -4,6 +4,7 @@
 
 
 # Import classic lib
+import os
 import sys
 import numpy as np
 import pandas as pd
@@ -36,13 +37,17 @@ app = dash.Dash(
 # Creating server
 server = app.server
 
+
+############################################################################################
+######################################## PARAMETERS ########################################
+############################################################################################
+
 # Initiating logger
 logzero.loglevel(logging.DEBUG)
 
-# Display app start
-logger.error('*' * 80)
-logger.error('Initialisation de l\'Application')
-logger.error('*' * 80)
+# Deployment inforamtion
+DEPLOYED = 'DEPLOYED' in os.environ
+PORT = 8050
 
 ############################################################################################
 ########################################## LOADING #########################################
@@ -675,4 +680,14 @@ def distribution_retard(click_valider, click_reset, choix_radio, couleur, time_f
 ############################################################################################
 
 if __name__ == '__main__':
-    app.run_server(debug=True) #, use_reloader=True)
+
+    # Display app start
+    logger.error('*' * 80)
+    logger.error('Initialisation de l\'Application')
+    logger.error('*' * 80)
+
+    # Run application
+    if DEPLOYED:
+        app.run_server(host='0.0.0.0',debug=False, port=PORT)
+    else:
+        app.run_server(debug=True, port=PORT)

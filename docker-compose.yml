@@ -1,0 +1,17 @@
+
+version: '3'
+services:
+    ps-dash:
+        build: ./src
+        environment:
+            - DEPLOYED=True
+            - PYTHONPATH=/src/scripts/
+        volumes:
+            - ./src:/src
+            - ./data:/data
+            - ./fig:/fig
+            - ./wiki:/wiki
+        ports:
+            - 8050:8050
+            - 8051:8051
+      

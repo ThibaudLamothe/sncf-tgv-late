@@ -1,0 +1,33 @@
+# Get an existing image with python
+FROM python:3.7.7-slim
+
+# Developper name
+MAINTAINER thibaud lamothe
+
+# Upgrade apt and install nano command 
+RUN apt update
+RUN apt install nano
+
+# Copy src folder
+RUN mkdir src
+RUN mkdir data
+RUN mkdir fig
+RUN mkdir wiki
+
+# Get requirements file
+COPY requirements.txt /src/
+
+# Go to src folder
+WORKDIR src/
+
+# Uprage pip and install requrements
+RUN pip3 install --upgrade pip
+RUN pip3 install -r requirements.txt
+
+# Expose dash ports
+EXPOSE 8050
+EXPOSE 8051
+
+# Move to app folder and run dash
+WORKDIR app/
+CMD ["python3", "index.py"]
