@@ -24,6 +24,21 @@ from logzero import logger
 
 # Importing personnal functions 
 import sncf_utils as f
+from values import mapbox_access_token, df, gare_position, df_gare, gares
+from values import min_date, max_date, min_max_date_value, marks_data
+
+
+############################################################################################
+######################################## PARAMETERS ########################################
+############################################################################################
+
+# Initiating logger
+logzero.loglevel(logging.DEBUG)
+
+# Deployment inforamtion
+DEPLOYED = 'DEPLOYED' in os.environ
+PORT = 8050
+
 
 ############################################################################################
 #################################### APP INITIATION ########################################
@@ -38,58 +53,6 @@ app = dash.Dash(
 server = app.server
 
 
-############################################################################################
-######################################## PARAMETERS ########################################
-############################################################################################
-
-# Initiating logger
-logzero.loglevel(logging.DEBUG)
-
-# Deployment inforamtion
-DEPLOYED = 'DEPLOYED' in os.environ
-PORT = 8050
-
-############################################################################################
-########################################## LOADING #########################################
-############################################################################################
-
-# Loading map token
-mapbox_access_token = f.get_token('mapbox')
-
-# Loading main data
-df = f.load_pickle('dash_first_try.p')
-logger.info(df.head())
-
-# Loading gare information
-gare_position = f.load_pickle('gare_gps.p')
-df_gare = pd.DataFrame(
-    {
-        'gare': [key for key in gare_position.keys()],
-        'latitude': [value['latitude'] for value in gare_position.values()],
-        'longitude': [value['longitude'] for value in gare_position.values()],
-        'adresse': [value['location_adress'] for value in gare_position.values()]
-    }
-).set_index('gare')
-
-# Computing gare liste
-gares = df.pipe(f.get_gares)
-logger.info(gares)
-
-# Setting date for application purpose
-min_date = 2014  # df['periode'].min()
-max_date = 2019  # df['periode'].max()
-min_max_date_value = [min_date, max_date]
-marks_data = f.slicer(min_date, max_date)
-
-
-def min_max_date(df):
-    min_date = df['Year'].min()
-    max_date = df['Year'].max()
-    if min_date > max_date:
-        tmp = min_date
-        min_date = max_date
-        max_date = tmp
-    return min_date, max_date
 
 
 ############################################################################################
@@ -174,7 +137,7 @@ app.layout = html.Div(
                                 for i in gares
                             ],
                             placeholder="Gare de départ",
-                            # value='PARIS MONTPARNASSE',
+                            value='PARIS MONTPARNASSE',
                             # clearable=False,
                             # searchable=False,
                         ),
@@ -186,7 +149,7 @@ app.layout = html.Div(
                                 for i in gares
                             ],
                             placeholder="Gare d'arrivée",
-                            # value='BORDEAUX ST JEAN',
+                            value='BORDEAUX ST JEAN',
                             # clearable=False,
                             searchable=True,
                         ),
@@ -213,7 +176,8 @@ app.layout = html.Div(
                         html.Div(
                             className='upperKPIFake',
                             children=[                        
-                                dcc.Loading(
+                                # dcc.Loading(
+                                html.Div(
                                     className='KPIs',
                                     children=[                           
                                         html.Div(children=[dcc.Graph(id='kpi-1'),html.Span('Trains prévus')], className='rond_cercle'),
@@ -222,8 +186,9 @@ app.layout = html.Div(
                                         html.Div(children=[dcc.Graph(id='kpi-4'),html.Span('Retard moyen (min)')], className='rond_cercle'),
                                         html.Div(children=[dcc.Graph(id='kpi-5'),html.Span('Retard cumulé (h)')], className='rond_cercle'),
                                     ],
-                                    color='crimson',
-                                    type="circle",
+                                #     color='crimson',
+                                #     type="circle",
+                                # ),
                                 ),
                                 html.Div(
                                     className='TimeSelector',
@@ -352,7 +317,19 @@ app.layout = html.Div(
 ############################################################################################
 
 
+def min_max_date(df):
+    min_date = df['Year'].min()
+    max_date = df['Year'].max()
+    if min_date > max_date:
+        tmp = min_date
+        min_date = max_date
+        max_date = tmp
+    return min_date, max_date
+
+
+
 def circle_number(value, max_value=100):
+    print('CIRRCLE NUMBER')
     values = [max_value - value, value]
     colors = ['rgba(0, 0, 0,0)', "crimson"]  # "rgb(204, 255, 255)"]
     direction = 'clockwise'
