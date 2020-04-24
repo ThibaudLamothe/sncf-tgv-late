@@ -7,6 +7,7 @@ import pandas as __pd
 import json as __json
 from sklearn.preprocessing import LabelEncoder
 
+from scripts.main_utils import encode_serie
 
 
 def transform_category_to_color(df, col_name, colors=None):
