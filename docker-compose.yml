@@ -5,7 +5,7 @@ services:
         build: ./src
         environment:
             - DEPLOYED=True
-            - PYTHONPATH=/src/scripts/
+            - PYTHONPATH=/src/
         volumes:
             - ./src:/src
             - ./data:/data

@@ -1,4 +1,4 @@
-import sncf_utils as f
+import scripts as f
 from logzero import logger
 import pandas as pd
 

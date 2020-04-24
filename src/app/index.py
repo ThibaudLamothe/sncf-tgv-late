@@ -23,10 +23,13 @@ import logzero
 from logzero import logger
 
 # Importing personnal functions 
-import sncf_utils as f
+#import sncf_utils as f
+import sys
+sys.path.append('../')
+import scripts as f
+
 from values import mapbox_access_token, df, gare_position, df_gare, gares
 from values import min_date, max_date, min_max_date_value, marks_data
-
 
 ############################################################################################
 ######################################## PARAMETERS ########################################
@@ -52,40 +55,6 @@ app = dash.Dash(
 # Creating server
 server = app.server
 
-
-
-
-############################################################################################
-####################################### COMPONENTS #########################################
-############################################################################################
-
-
-def NamedDropdown(name, **kwargs):
-    return html.Div(
-        style={"margin": "10px 0px"},
-        children=[
-            html.P(children=f"{name}", style={"margin-left": "3px"}),
-            dcc.Dropdown(**kwargs),
-        ],
-    )
-
-
-def OnOffButton(name, **kwargs):
-    return html.Div(
-        # style={"margin": "auto"},
-        children=[
-            daq.PowerButton(**kwargs)
-        ],
-    )
-
-
-def simpleButton(name, **kwargs):
-    return html.Div(
-        # style={"margin": "auto"},
-        children=[
-            daq.StopButton(**kwargs)
-        ],
-    )
 
 ############################################################################################
 ######################################### MAIN APP #########################################
@@ -121,7 +90,7 @@ app.layout = html.Div(
                             """Analyse des retards des TGVs entre 2016 et 2019
                             """
                         ),
-                        simpleButton(name='all-gare', id='reset-button', buttonText='RESET'),#, on=True),
+                        f.simpleButton(name='all-gare', id='reset-button', buttonText='RESET'),#, on=True),
                     ]
                 ),            
                 html.Div(
@@ -129,7 +98,7 @@ app.layout = html.Div(
                     id='analyse-card',
                     children=[
                         html.H3('Analyse complémentaire'),
-                        NamedDropdown(
+                        f.NamedDropdown(
                             name="Gare de départ ",
                             id="gare-depart",
                             options=[
@@ -141,7 +110,7 @@ app.layout = html.Div(
                             # clearable=False,
                             # searchable=False,
                         ),
-                        NamedDropdown(
+                        f.NamedDropdown(
                             name="Gare d'arrivée ",
                             id="gare-arrivee",
                             options=[
@@ -153,7 +122,7 @@ app.layout = html.Div(
                             # clearable=False,
                             searchable=True,
                         ),
-                        simpleButton(name='valider', id='valider-button', buttonText='Valider',),#, on=True),
+                        f.simpleButton(name='valider', id='valider-button', buttonText='Valider',),#, on=True),
                     ]
                 ),
                 dcc.Markdown(
